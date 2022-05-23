@@ -1,0 +1,71 @@
+{
+  "Version": 1,
+  "Hash": "XO8Ac+O+6cAULevO4FVyVWOC09P0Hpc50IWQVkDvldQ=",
+  "Source": "WebApiCasino2",
+  "BasePath": "_content/WebApiCasino2",
+  "Mode": "Default",
+  "ManifestType": "Build",
+  "ReferencedProjectsConfiguration": [],
+  "DiscoveryPatterns": [
+    {
+      "Name": "WebApiCasino2\\wwwroot",
+      "Source": "WebApiCasino2",
+      "ContentRoot": "C:\\Users\\yahir\\Desktop\\LCC\\6to_SEMESTRE\\Backend\\VS_AspNetCoreWebApi\\WebApiCasino2\\WebApiCasino2\\wwwroot\\",
+      "BasePath": "_content/WebApiCasino2",
+      "Pattern": "**"
+    }
+  ],
+  "Assets": [
+    {
+      "Identity": "C:\\Users\\yahir\\Desktop\\LCC\\6to_SEMESTRE\\Backend\\VS_AspNetCoreWebApi\\WebApiCasino2\\WebApiCasino2\\wwwroot\\Frase.txt",
+      "SourceId": "WebApiCasino2",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\yahir\\Desktop\\LCC\\6to_SEMESTRE\\Backend\\VS_AspNetCoreWebApi\\WebApiCasino2\\WebApiCasino2\\wwwroot\\",
+      "BasePath": "_content/WebApiCasino2",
+      "RelativePath": "Frase.txt",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\Frase.txt"
+    },
+    {
+      "Identity": "C:\\Users\\yahir\\Desktop\\LCC\\6to_SEMESTRE\\Backend\\VS_AspNetCoreWebApi\\WebApiCasino2\\WebApiCasino2\\wwwroot\\nuevosRegistros.txt",
+      "SourceId": "WebApiCasino2",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\yahir\\Desktop\\LCC\\6to_SEMESTRE\\Backend\\VS_AspNetCoreWebApi\\WebApiCasino2\\WebApiCasino2\\wwwroot\\",
+      "BasePath": "_content/WebApiCasino2",
+      "RelativePath": "nuevosRegistros.txt",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\nuevosRegistros.txt"
+    },
+    {
+      "Identity": "C:\\Users\\yahir\\Desktop\\LCC\\6to_SEMESTRE\\Backend\\VS_AspNetCoreWebApi\\WebApiCasino2\\WebApiCasino2\\wwwroot\\registroConsultado.txt",
+      "SourceId": "WebApiCasino2",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\yahir\\Desktop\\LCC\\6to_SEMESTRE\\Backend\\VS_AspNetCoreWebApi\\WebApiCasino2\\WebApiCasino2\\wwwroot\\",
+      "BasePath": "_content/WebApiCasino2",
+      "RelativePath": "registroConsultado.txt",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\registroConsultado.txt"
+    }
+  ]
+}
