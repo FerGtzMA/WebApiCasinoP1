@@ -10,8 +10,10 @@ using WebApiCasino2.Entidades;
 namespace WebApiCasino2.Controllers
 {
     [ApiController]
+    //Esto quiere decir que es un controlador dependiente, y en este caso depende de la rifa.
+    //Debemos especificar qué numero de lotería quiero yo.
     [Route("rifas/{rifaId:int}/NumerosDeLoteria")]
-    //[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     public class NumsLoteriaController : ControllerBase
     {
         private readonly ApplicationDbContext dbContext;
@@ -54,13 +56,15 @@ namespace WebApiCasino2.Controllers
         }
 
         [HttpPost]
-        //[AllowAnonymous]
+        [AllowAnonymous]
         public async Task<ActionResult> Post(int rifaId, NumsLoteriaCreacionDTO numeroCreacionDTO)
         {
+            //mediante los claims podemos acceder a la información del usaurio que esta logueado.
+            //Es la información que obtenemos desde el token.
             var emailClaim = HttpContext.User.Claims.Where(claim => claim.Type == "email").FirstOrDefault();
 
             var email = emailClaim.Value;
-
+            //Obtenemos el usuario desde el correo.
             var usuario = await userManager.FindByEmailAsync(email);
             var usuarioId = usuario.Id;
 
@@ -78,6 +82,8 @@ namespace WebApiCasino2.Controllers
 
             var numeroDTO = mapper.Map<NumsLoteriaDTO>(numero);
 
+            //Perimte generar una ruta de acceso al registro que acabo de crear.
+            //Se pasa el nombre de la ruta, un objeto con su dependencia, el objeto que acabamos de crear. 
             return CreatedAtRoute("obtenerNumero", new { id = numero.Id, rifaId = rifaId }, numeroDTO);
         }
 

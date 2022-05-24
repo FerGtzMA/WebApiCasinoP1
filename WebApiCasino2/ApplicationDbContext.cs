@@ -4,6 +4,9 @@ using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 
 namespace WebApiCasino2
 {
+    //Poner que Herede de IdentityDbContext y la linea de base.OnModelCreating(modelBuilder);
+    // se puede hacer un Add-Migration Name, que hace las tablas de Identity para realizar la 
+    // autenticación. Solo le damos Update-Database y ya se cren las tablas en la base de datos.
     public class ApplicationDbContext : IdentityDbContext
     {
         public ApplicationDbContext(DbContextOptions options) : base(options)

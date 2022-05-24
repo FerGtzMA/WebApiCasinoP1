@@ -5,6 +5,8 @@ using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using System.IdentityModel.Tokens.Jwt;
 using System.Text;
+using System.Text.Json.Serialization;
+using WebApiCasino2.Filtros;
 using WebApiCasino2.Services;
 using WebApiCasino2.Utilidades;
 
@@ -22,8 +24,11 @@ namespace WebApiCasino2
 
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddControllers().AddJsonOptions(x =>
-            x.JsonSerializerOptions.ReferenceHandler = System.Text.Json.Serialization.ReferenceHandler.IgnoreCycles);
+            services.AddControllers(opciones =>
+            {
+                opciones.Filters.Add(typeof(FiltroDeExcepcion));
+            }).AddJsonOptions(x =>
+            x.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles).AddNewtonsoftJson();
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(@"Server=(localdb)\mssqllocaldb;Database=Casino2WebApis"));
 
@@ -32,12 +37,16 @@ namespace WebApiCasino2
             services.AddResponseCaching();
 
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+                //Parametros validación para los tokens
                 .AddJwtBearer(opciones => opciones.TokenValidationParameters = new TokenValidationParameters
                 {
                     ValidateIssuer = false,
                     ValidateAudience = false,
-                    ValidateLifetime = true,
-                    ValidateIssuerSigningKey = true,
+                    ValidateLifetime = true, //Tiempo de validación para los tokens
+                    //Validar que el token este firmado con una llave que definimos en el proyecto.
+                    ValidateIssuerSigningKey = true, //Es un token de cada usuario
+                    //Lo que NO debamos de mandar son datos sensibles dentro del usuario
+                    //Porque esta incriptada, y si la interceptan pues solo la desencriptan y se ve.
                     IssuerSigningKey = new SymmetricSecurityKey(
                         Encoding.UTF8.GetBytes(Configuration["keyjwt"])),
                     ClockSkew = TimeSpan.Zero
@@ -48,15 +57,19 @@ namespace WebApiCasino2
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "WebAPI_CASINO", Version = "v1" });
 
+                //Definición de seguridad.
+                //Bearer es la palabra clave, y la tenemos que poner siempre antes de un token.
                 c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
                 {
                     Name = "Authorization",
-                    Type = SecuritySchemeType.ApiKey,
-                    Scheme = "Bearer",
-                    BearerFormat = "JWT",
+                    Type = SecuritySchemeType.ApiKey, //Tipo de seguridad.
+                    Scheme = "Bearer",  //Es quema.
+                    BearerFormat = "JWT", //Formado.
                     In = ParameterLocation.Header
                 });
 
+                //Requerimientos de seguridad-
+                //Configuración general de un token
                 c.AddSecurityRequirement(new OpenApiSecurityRequirement
                 {
                     {
@@ -76,27 +89,29 @@ namespace WebApiCasino2
             //........................AUTOMAPPER................................
             services.AddAutoMapper(typeof(Startup));
 
-
+            //Definimos Identity
             services.AddIdentity<IdentityUser, IdentityRole>()
                 .AddEntityFrameworkStores<ApplicationDbContext>()
                 .AddDefaultTokenProviders();
 
             services.AddAuthorization(opciones =>
             {
+                //Podemos hacer n cantidad de Claims, ya que cada rol tiene diferentes tipos de servicio.
                 opciones.AddPolicy("EsAdmin", politica => politica.RequireClaim("esAdmin"));
                 opciones.AddPolicy("EsAlumno", politica => politica.RequireClaim("esAlumno"));
             });
 
+            //
             services.AddCors(opciones =>
             {
                 opciones.AddDefaultPolicy(builder =>
                 {
+                    //Ponemos el dominio que nosotros le daremos el acceso, dandole a cualquier metodo y cualquier cabecera.
                     builder.WithOrigins("https://apirequest.io").AllowAnyMethod().AllowAnyHeader();
                     //builder.WithOrigins("https://google.com").AllowAnyMethod().AllowAnyHeader();
                     //
                 });
             });
-
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env, ILogger<Startup> logger)

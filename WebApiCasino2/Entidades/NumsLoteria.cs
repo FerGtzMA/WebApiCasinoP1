@@ -14,5 +14,15 @@ namespace WebApiCasino2.Entidades
 
         public string UsuarioId { get; set; }
         public IdentityUser Usuario { get; set; }
+
+
+        public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
+        {
+             var num = Numero;
+            if (num < 1 && num > 54)
+            {
+                yield return new ValidationResult("Este valor no puede ser menor a cero ni mayor a 54.", new String[] {nameof(num)});
+            }
+        }
     }
 }

@@ -12,7 +12,8 @@ namespace WebApiCasino2.Controllers
 {
     [ApiController]
     [Route("api/rifas")]
-    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+    //Es a nivel controlador, también se puede poner a nivel método.
+    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Policy = "EsAdmin")]
     public class RifasController : ControllerBase
     {
         private readonly ApplicationDbContext dbContext;
@@ -27,6 +28,7 @@ namespace WebApiCasino2.Controllers
         }
 
         [HttpGet("/listadoRifas")]
+        //permite que cualquier usuario que no este registrado pueda acceer a la consulta de este metodo.
         [AllowAnonymous]
         public async Task<ActionResult<List<Rifa>>> GetAll()
         {
@@ -37,6 +39,10 @@ namespace WebApiCasino2.Controllers
         public async Task<ActionResult<RifaDTOConPersonas>> GetById(int id)
         {
             var rifa = await dbContext.Rifa
+                //Permite, que cuando se este haciendo una entidad y esa entidad este
+                //relacionada con otra entidad, poder obterner a la Clses de esa relacion.
+                //Incluyen información de tablas que tenga relación con la principal que estoy consultando.
+                //Funciona para Solamente cargar la información que nos piden y no toda.
                 .Include(rifaDB => rifaDB.PersonaRifa)
                 .ThenInclude(personaRifaDB => personaRifaDB.Persona)
                 .Include(rifaDB => rifaDB.Numeros)
@@ -116,7 +122,12 @@ namespace WebApiCasino2.Controllers
             return Ok();
         }
 
+        //Sirve para actualizar el registro en cualquier tabla
         [HttpPatch("{id:int}")]
+        // JsonPatchDocument es una librería que descargamos y esto lo que hace es que nos permite
+        //obtener nuestro objeto, de hecho se crea un objeto patch, y vemos que valores podemos modificar.
+        //Si no usamos esta librería, es que si queremos actualizar, y la fecha de creación es de hace un mes.
+        //Es que se quede así la clase, con el JsonPatch sirve paa actualizar atributos de una entidad y no todos.
         public async Task<ActionResult> Patch(int id, JsonPatchDocument<RifaPatchDTO> patchDocument)
         {
             if (patchDocument == null) { return BadRequest(); }

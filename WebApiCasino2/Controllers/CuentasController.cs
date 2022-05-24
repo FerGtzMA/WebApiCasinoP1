@@ -14,10 +14,12 @@ namespace WebApiCasino2.Controllers
     [Route("cuentas")]
     public class CuentasController : ControllerBase
     {
+        // Es el usuario que vamos a registrar
         private readonly UserManager<IdentityUser> userManager;
+        //Para obterner la key.
         private readonly IConfiguration configuration;
         private readonly SignInManager<IdentityUser> signInManager;
-
+        
         public CuentasController(UserManager<IdentityUser> userManager, IConfiguration configuration,
             SignInManager<IdentityUser> signInManager)
         {
@@ -32,6 +34,7 @@ namespace WebApiCasino2.Controllers
             var user = new IdentityUser { UserName = credenciales.Email, Email = credenciales.Email };
             var result = await userManager.CreateAsync(user, credenciales.Password);
 
+            //si se registra de manera correcta
             if (result.Succeeded)
             {
                 //Se retorna el Jwt (Json Web Token) especifica el formato del token que hay que devolverle a los clientes
@@ -64,6 +67,7 @@ namespace WebApiCasino2.Controllers
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         public async Task<ActionResult<RespuestaAutenticacion>> Renovar()
         {
+            //Para renovarlo no tiene que haber vencido el token actual.
             var emailClaim = HttpContext.User.Claims.Where(claim => claim.Type == "email").FirstOrDefault();
             var email = emailClaim.Value;
 
@@ -84,6 +88,8 @@ namespace WebApiCasino2.Controllers
 
             var claims = new List<Claim>
             {
+                //Podemos agregar los claims que nosotros queramos y no nos va a marcar error.
+                //Esta información viene encriptada.
                 new Claim("email", credencialesUsuario.Email),
                 new Claim("claimprueba", "Este es un claim de prueba")
             };
@@ -96,8 +102,11 @@ namespace WebApiCasino2.Controllers
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration["keyjwt"]));
             var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
 
+            //Se agregan cada 30 minutos, si expira se desloguea.
+            //Por eso hay un método para renovar el token.
             var expiration = DateTime.UtcNow.AddMinutes(30);
 
+            //se contruye el token que el usuario usara para que funcione el sistema.
             var securityToken = new JwtSecurityToken(issuer: null, audience: null, claims: claims,
                 expires: expiration, signingCredentials: creds);
 
@@ -113,6 +122,7 @@ namespace WebApiCasino2.Controllers
         {
             var usuario = await userManager.FindByEmailAsync(editarAdminDTO.Email);
 
+            //Se agrega un claim al usuario haciendolo administrador, el valor no importa
             await userManager.AddClaimAsync(usuario, new Claim("EsAdmin", "1"));
 
             return NoContent();
@@ -123,6 +133,7 @@ namespace WebApiCasino2.Controllers
         {
             var usuario = await userManager.FindByEmailAsync(editarAdminDTO.Email);
 
+            //Se remuve el claim de "EsAdmin", el valor no importa
             await userManager.RemoveClaimAsync(usuario, new Claim("EsAdmin", "1"));
 
             return NoContent();
