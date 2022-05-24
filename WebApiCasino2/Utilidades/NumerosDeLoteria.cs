@@ -1,0 +1,65 @@
+﻿using WebApiCasino2.Entidades;
+
+namespace WebApiCasino2.Utilidades
+{
+    public class NumerosDeLoteria
+    {
+        public static List<NumsLoteria> baraja = new List<NumsLoteria>()
+        {
+            new NumsLoteria(){Id=1, nombre = "Gallo"},
+            new NumsLoteria(){Id=2, nombre = "Diablo"},
+            new NumsLoteria(){Id=3, nombre = "Dama"},
+            new NumsLoteria(){Id=4, nombre = "Catrin"},
+            new NumsLoteria(){Id=5, nombre = "Paraguas"},
+            new NumsLoteria(){Id=6, nombre = "Sirena"},
+            new NumsLoteria(){Id=7, nombre = "Escalera"},
+            new NumsLoteria(){Id=8, nombre = "Botella"},
+            new NumsLoteria(){Id=9, nombre = "Barril"},
+            new NumsLoteria(){Id=10, nombre = "Árbol"},
+            new NumsLoteria(){Id=11, nombre = "Melón"},
+            new NumsLoteria(){Id=12, nombre = "Valiente"},
+            new NumsLoteria(){Id=13, nombre = "Gorrito"},
+            new NumsLoteria(){Id=14, nombre = "Muerte"},
+            new NumsLoteria(){Id=15, nombre = "Pera"},
+            new NumsLoteria(){Id=16, nombre = "Bandera"},
+            new NumsLoteria(){Id=17, nombre = "Bandolón"},
+            new NumsLoteria(){Id=18, nombre = "Violoncello"},
+            new NumsLoteria(){Id=19, nombre = "Garza"},
+            new NumsLoteria(){Id=20, nombre = "Pájaro"},
+            new NumsLoteria(){Id=21, nombre = "Mano"},
+            new NumsLoteria(){Id=22, nombre = "Bota"},
+            new NumsLoteria(){Id=23, nombre = "Luna"},
+            new NumsLoteria(){Id=24, nombre = "Cotorro"},
+            new NumsLoteria(){Id=25, nombre = "Borracho"},
+            new NumsLoteria(){Id=26, nombre = "Negrito"},
+            new NumsLoteria(){Id=27, nombre = "Corazón"},
+            new NumsLoteria(){Id=28, nombre = "Sandía"},
+            new NumsLoteria(){Id=29, nombre = "Tambor"},
+            new NumsLoteria(){Id=30, nombre = "Camarón"},
+            new NumsLoteria(){Id=31, nombre = "Jaras"},
+            new NumsLoteria(){Id=32, nombre = "Músico"},
+            new NumsLoteria(){Id=33, nombre = "Araña"},
+            new NumsLoteria(){Id=34, nombre = "Soldado"},
+            new NumsLoteria(){Id=35, nombre = "Estrella"},
+            new NumsLoteria(){Id=36, nombre = "Cazo"},
+            new NumsLoteria(){Id=37, nombre = "Mundo"},
+            new NumsLoteria(){Id=38, nombre = "Apache"},
+            new NumsLoteria(){Id=39, nombre = "Nopal"},
+            new NumsLoteria(){Id=40, nombre = "Alacrán"},
+            new NumsLoteria(){Id=41, nombre = "Rosa"},
+            new NumsLoteria(){Id=42, nombre = "Calavera"},
+            new NumsLoteria(){Id=43, nombre = "Campana"},
+            new NumsLoteria(){Id=44, nombre = "Cantaro"},
+            new NumsLoteria(){Id=45, nombre = "Venado"},
+            new NumsLoteria(){Id=46, nombre = "Sol"},
+            new NumsLoteria(){Id=47, nombre = "Corona"},
+            new NumsLoteria(){Id=48, nombre = "Chalupa"},
+            new NumsLoteria(){Id=49, nombre = "Pino"},
+            new NumsLoteria(){Id=50, nombre = "Pescado"},
+            new NumsLoteria(){Id=51, nombre = "Palma"},
+            new NumsLoteria(){Id=52, nombre = "Maceta"},
+            new NumsLoteria(){Id=53, nombre = "Arpa"},
+            new NumsLoteria(){Id=54, nombre = "Rana"}
+        };
+    }
+}

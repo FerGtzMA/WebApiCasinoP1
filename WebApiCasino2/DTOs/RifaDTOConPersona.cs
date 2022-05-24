@@ -1,6 +1,8 @@
-﻿namespace WebApiCasino2.Entidades
+﻿using WebApiCasino2.Entidades;
+
+namespace WebApiCasino4.DTOs
 {
-    public class PersonaRifa
+    public class RifaDTOConPersona
     {
         public int Id { get; set; }
         public int NumLoteria { get; set; }

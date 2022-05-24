@@ -8,69 +8,33 @@ namespace WebApiCasino2.Utilidades
     {
         public AutoMapperProfiles()
         {
-            CreateMap<PersonaDTO, Persona>();
-            CreateMap<Persona, GetPersonaDTO>();
-            CreateMap<Persona, PersonaDTOConRifas>()
-                .ForMember(personaDTO => personaDTO.Rifas, opciones => opciones.MapFrom(MapPersonaDTORifas));
-            CreateMap<RifaCreacionDTO, Rifa>()
-                .ForMember(rifa => rifa.PersonaRifa, opciones => opciones.MapFrom(MapPersonaRifa));
-            CreateMap<Rifa, RifaDTO>();
-            CreateMap<Rifa, RifaDTOConPersonas>()
-                .ForMember(rifaDTO => rifaDTO.Personas, opciones => opciones.MapFrom(MapRifaDTOPersonas));
-            CreateMap<RifaPatchDTO, Rifa>().ReverseMap();
-            CreateMap<NumsLoteriaCreacionDTO, NumsLoteria>();
-            CreateMap<NumsLoteria, NumsLoteriaDTO>();
+            CreateMap<PersonaCreacionDTO, Persona>();
+            CreateMap<RifaPersonaCreacionDTO, PersonaRifa>();
+            CreateMap<PremioCreacionDTO, Premio>();
+            CreateMap<RifaCreacionDTO, Rifa>();
+
+            CreateMap<Rifa, GetRifaDTO>().ForMember(premioDTO => premioDTO.Premios, options => options.MapFrom(MapearListaPremios));
+            CreateMap<PremioPatchDTO, Premio>().ReverseMap();
         }
-
-        private List<RifaDTO> MapPersonaDTORifas(Persona persona, GetPersonaDTO getPersonaDTO)
+        private List<Premio> MapearListaPremios(Rifa rifa, GetRifaDTO getRifaDTO)
         {
-            var result = new List<RifaDTO>();
-
-            if (persona.PersonaRifa == null) { return result; }
-
-            foreach (var personaRifa in persona.PersonaRifa)
-            {
-                result.Add(new RifaDTO()
-                {
-                    Id = personaRifa.RifaId,
-                    Nombre = personaRifa.Rifa.Nombre
-                });
-            }
-
-            return result;
-        }
-
-        private List<GetPersonaDTO> MapRifaDTOPersonas(Rifa rifa, RifaDTO rifaDTO)
-        {
-            var result = new List<GetPersonaDTO>();
-
-            if (rifa.PersonaRifa == null)
+            var result = new List<Premio>();
+            if (rifa.Premios == null)
             {
                 return result;
             }
-
-            foreach (var personarifa in rifa.PersonaRifa)
+            foreach (var premios in rifa.Premios)
             {
-                result.Add(new GetPersonaDTO()
+                result.Add(new Premio()
                 {
-                    Id = personarifa.PersonaId,
-                    Nombre = personarifa.Persona.Nombre
+                    Id = premios.Id,
+                    Nombre = premios.Nombre,
+                    Entregado = premios.Entregado,
+                    Orden = premios.Orden,
+                    RifaId = premios.RifaId
                 });
             }
-
             return result;
-        }
-
-        private List<PersonaRifa> MapPersonaRifa(RifaCreacionDTO rifaCreacionDTO, Rifa rifa)
-        {
-            var resultado = new List<PersonaRifa>();
-
-            if (rifaCreacionDTO.PersonasIds == null) { return resultado; }
-            foreach (var personaId in rifaCreacionDTO.PersonasIds)
-            {
-                resultado.Add(new PersonaRifa() { PersonaId = personaId });
-            }
-            return resultado;
         }
     }
 }

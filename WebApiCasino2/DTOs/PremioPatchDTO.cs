@@ -1,8 +1,8 @@
 ﻿namespace WebApiCasino2.DTOs
 {
-    public class GetPersonaDTO
+    public class PremioPatchDTO
     {
-        public int Id { get; set; }
         public string Nombre { get; set; }
+        public bool Entregado { get; set; }
     }
 }

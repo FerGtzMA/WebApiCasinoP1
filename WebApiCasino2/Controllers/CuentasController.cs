@@ -19,7 +19,7 @@ namespace WebApiCasino2.Controllers
         //Para obterner la key.
         private readonly IConfiguration configuration;
         private readonly SignInManager<IdentityUser> signInManager;
-        
+
         public CuentasController(UserManager<IdentityUser> userManager, IConfiguration configuration,
             SignInManager<IdentityUser> signInManager)
         {
@@ -99,7 +99,7 @@ namespace WebApiCasino2.Controllers
 
             claims.AddRange(claimsDB);
 
-            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration["keyjwt"]));
+            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration["jwtkey"]));
             var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
 
             //Se agregan cada 30 minutos, si expira se desloguea.
@@ -123,7 +123,7 @@ namespace WebApiCasino2.Controllers
             var usuario = await userManager.FindByEmailAsync(editarAdminDTO.Email);
 
             //Se agrega un claim al usuario haciendolo administrador, el valor no importa
-            await userManager.AddClaimAsync(usuario, new Claim("EsAdmin", "1"));
+            await userManager.AddClaimAsync(usuario, new Claim("Administrador", "1"));
 
             return NoContent();
         }
@@ -134,7 +134,7 @@ namespace WebApiCasino2.Controllers
             var usuario = await userManager.FindByEmailAsync(editarAdminDTO.Email);
 
             //Se remuve el claim de "EsAdmin", el valor no importa
-            await userManager.RemoveClaimAsync(usuario, new Claim("EsAdmin", "1"));
+            await userManager.RemoveClaimAsync(usuario, new Claim("Administrador", "1"));
 
             return NoContent();
         }
